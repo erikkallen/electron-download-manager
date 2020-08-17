@@ -8,11 +8,11 @@ const app = electron.app;
 let downloadFolder = app.getPath('downloads');
 let lastWindowCreated;
 
-const queue = [];
+global.queue = [];
 
 const _popQueueItem = (url) => {
-    let queueItem = queue.find(item => item.url === url);
-    queue.splice(queue.indexOf(queueItem), 1);
+    let queueItem = global.queue.find(item => item.url === url);
+    global.queue.splice(global.queue.indexOf(queueItem), 1);
     return queueItem;
 };
 
@@ -173,7 +173,7 @@ const download = (options, callback) => {
     request.on('response', function (response) {
         request.abort();
 
-        queue.push({
+        global.queue.push({
             url: url,
             filename: filename,
             downloadFolder: options.downloadFolder,
